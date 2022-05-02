@@ -1,0 +1,43 @@
+﻿@using Tangy_Models.LearnBlazorModel
+
+<div class="col">
+    <div class="card" @onclick="(args)=>ProductSelected(args, Product.Name)">
+        <div class="card-header">Product - @Product.Id</div>
+        <div class="card=body">
+            <input type="checkbox" @onchange="FavoriteUpdated" />Add to favorite <br /><br />
+            Name - @Product.Name<br />
+            Show properties: <input type="checkbox" @bind="Product.IsActive" />
+
+            @if (Product.IsActive)
+            {
+                @foreach (var prop in Product.Properties)
+                {
+                    <p>@prop.Key - @prop.Value</p>
+                }
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        <_EditDeleteButton IsActive="@Product.IsActive"></_EditDeleteButton>
+    </div>
+</div>
+@code {
+    [Parameter]
+    public Demo_Product Product { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnFavoriteSelection { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnProductSelection { get; set; }
+
+    private async Task FavoriteUpdated(ChangeEventArgs e)
+    {
+        await OnFavoriteSelection.InvokeAsync((bool)e.Value);
+    }
+
+    private async Task ProductSelected(MouseEventArgs e, string name)
+    {
+        await OnProductSelection.InvokeAsync((string)name);
+    }
+}
