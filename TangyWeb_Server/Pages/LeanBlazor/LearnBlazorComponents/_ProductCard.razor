@@ -6,6 +6,7 @@
         <div class="card=body">
             <input type="checkbox" @onchange="FavoriteUpdated" />Add to favorite <br /><br />
             Name - @Product.Name<br />
+            Fragments from parent - @FirstFragment @SecondFragment<br /><br />
             Show properties: <input type="checkbox" @bind="Product.IsActive" />
 
             @if (Product.IsActive)
@@ -30,6 +31,12 @@
 
     [Parameter]
     public EventCallback<string> OnProductSelection { get; set; }
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
 
     private async Task FavoriteUpdated(ChangeEventArgs e)
     {
