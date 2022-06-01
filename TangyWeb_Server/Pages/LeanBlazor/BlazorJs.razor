@@ -1,14 +1,30 @@
 ﻿@page "/learnBlazor/blazorJs"
-@inject IJSRuntime _JsRuntime 
+@inject IJSRuntime _JsRuntime
 
 <h3>BlazorJs</h3>
 
-<div class="row">
-    <button class="btn btn-secondary" @onclick="ConfirmBox">Confirm</button>
+<div class="row p-2">
+    <div class="col-4">
+        <button class="btn btn-secondary" @onclick="ConfirmBox">Confirm</button>
+    </div>
 </div>
-<div class="row">
-    <button class="btn btn-success" @onclick="ToasterSuccess">Toaster success</button>
-    <button class="btn btn-danger" @onclick="ToasterFailure">Toaster success</button>
+@*Toastr*@
+<div class="row p-2">
+    <div class="col-4">
+        <button class="btn btn-success" @onclick="ToasterSuccess">Toaster success</button>
+    </div>
+    <div class="col-4">
+        <button class="btn btn-danger" @onclick="ToasterFailure">Toaster failure</button>
+    </div>
+</div>
+@*SweetAlert*@
+<div class="row p-2">
+    <div class="col-4">
+        <button class="btn btn-success" @onclick="SweetAlertSuccess">SweetAlert success</button>
+    </div>
+    <div class="col-4">
+        <button class="btn btn-danger" @onclick="SweetAlertFailure">SweetAlert failure</button>
+    </div>
 </div>
 
 <div class="row">
@@ -33,11 +49,21 @@
 
     private async Task ToasterSuccess()
     {
-        await _JsRuntime.InvokeVoidAsync("ShowToastr", "success", "Success");
+        await _JsRuntime.ToastrSuccess("ShowToastr");
     }
 
     private async Task ToasterFailure()
     {
-        await _JsRuntime.InvokeVoidAsync("ShowToastr", "error", "Error");
+        await _JsRuntime.ToastrError("ShowToastr");
+    }
+
+    private async Task SweetAlertSuccess()
+    {
+        await _JsRuntime.InvokeVoidAsync("Swal.fire", new { icon = "success", title = "Success", text = "Text"});
+    }
+
+    private async Task SweetAlertFailure()
+    {
+        await _JsRuntime.InvokeVoidAsync("Swal.fire", new { icon = "error", title = "Error", text = "Text"});
     }
 }
